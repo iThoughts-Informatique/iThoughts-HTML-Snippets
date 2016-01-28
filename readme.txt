@@ -1,10 +1,10 @@
-=== iThoughts Lightbox ===
+=== iThoughts HTML Snippets ===
 Contributors: Gerkin
 Plugin URL: 
 Tags: 
 Requires at least: 3.3
 Tested up to: 4.4
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 
 Embed custom HTML snippets with placeholder with shortcodes
@@ -31,8 +31,7 @@ This section is empty for now.
 
 == Changelog ==
 
-This section is empty for now.
+= 0.1.1 =
+* FIX Change plugin display name
 
 == Upgrade Notice ==
-
-This section is empty for now.

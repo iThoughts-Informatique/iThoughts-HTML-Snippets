@@ -3,7 +3,7 @@
 Plugin Name: iThoughts HTML Snippets
 Plugin URI: 
 Description: Embed custom HTML snippets with placeholder with shortcodes
-Version:     0.1.0
+Version:     0.1.1
 Author:      Gerkin
 License:     GPLv2 or later
 Text Domain: ithoughts-html-snippets
