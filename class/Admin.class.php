@@ -1,19 +1,21 @@
 <?php
 
-class ithoughts_html_snippets_admin extends ithoughts_html_snippets_interface{
-	public function __construct(){
-		add_action( 'admin_menu',								array(&$this,	'get_menu') );
-		add_action( 'wp_ajax_ithoughts_html_snippets_get_list', array(&$this, "getListAjax"));
-		add_action( 'wp_ajax_ithoughts_html_snippets_get_snippet', array(&$this, "getSnippetAjax"));
-		add_action( 'admin_init',								array(&$this,	'register_scripts_and_styles')	);
-		add_action( 'admin_enqueue_scripts',					array(&$this,	'enqueue_scripts_and_styles')		);
-		add_action( 'admin_menu', array(&$this, 'create_meta_box_phpMode' ));
-		add_action( 'save_post', array(&$this, 'save_meta_box_phpMode' ), 10, 2 );
+namespace ithoughts\html_snippets;
 
-		add_filter( 'mce_buttons', array(&$this, "add_tinymce_button") );
-		add_filter('mce_external_plugins', array(&$this, "add_tinymce_plugin"));
-		add_filter( 'mce_external_languages',					array(&$this,	'tinymce_add_translations') );
-		add_filter('user_can_richedit', array(&$this, "disable_tinymce"));
+class Admin extends \ithoughts\v1_0\Singleton{
+	public function __construct(){
+		add_action( 'admin_menu',									array(&$this, 'get_menu') 	);
+		add_action( 'wp_ajax_ithoughts_html_snippets_get_list',		array(&$this, 'getListAjax') );
+		add_action( 'wp_ajax_ithoughts_html_snippets_get_snippet',	array(&$this, 'getSnippetAjax') );
+		add_action( 'admin_init',									array(&$this, 'register_scripts_and_styles') );
+		add_action( 'admin_enqueue_scripts',						array(&$this, 'enqueue_scripts_and_styles') );
+		add_action( 'admin_menu',									array(&$this, 'create_meta_box_phpMode') );
+		add_action( 'save_post',									array(&$this, 'save_meta_box_phpMode'), 10, 2 );
+
+		add_filter( 'mce_buttons',									array(&$this, 'add_tinymce_button') );
+		add_filter( 'mce_external_plugins',							array(&$this, 'add_tinymce_plugin') );
+		add_filter( 'mce_external_languages',						array(&$this, 'tinymce_add_translations') );
+		add_filter( 'user_can_richedit',							array(&$this, "disable_tinymce") );
 
 	}
 
@@ -24,7 +26,8 @@ class ithoughts_html_snippets_admin extends ithoughts_html_snippets_interface{
 	}
 
 	public function get_menu(){
-		$menu = add_menu_page("iThoughts HTML Snippets", __("HTML Snippets", 'ithoughts-html-snippets' ), "edit_others_posts", "edit.php?post_type=html_snippet", null, parent::$base_url."/resources/icon.svg");
+		$backbone = \ithoughts\html_snippets\backbone::get_instance();
+		$menu = add_menu_page("iThoughts HTML Snippets", __("HTML Snippets", 'ithoughts-html-snippets' ), "edit_others_posts", "edit.php?post_type=html_snippet", null, $backbone->get_base_url()."/resources/icon.svg");
 
 		$submenu_pages = array(
 			// Post Type :: Add New Post
@@ -91,11 +94,12 @@ class ithoughts_html_snippets_admin extends ithoughts_html_snippets_interface{
 	}
 
 	public function add_tinymce_plugin($plugin_array){
-		$plugin_array['ithoughts_html_snippets'] = parent::$base_url."/resources/tinymce".parent::$minify.".js" ;
+		$backbone = \ithoughts\html_snippets\backbone::get_instance();
+		$plugin_array['ithoughts_html_snippets'] = $backbone->get_base_url()."/resources/tinymce".$backbone->get_minify().".js" ;
 		echo '<script type="text/javascript">
 var ithoughts_html_snippets = {
 	admin_ajax: "'. admin_url('admin-ajax.php') . '",
-	base_url: "'. parent::$base_url . '"
+	base_url: "'. $backbone->get_base_url() . '"
 }
 </script>';
 		wp_enqueue_script( 'ithoughts_html_snippets-tinymce' );
@@ -106,27 +110,28 @@ var ithoughts_html_snippets = {
 		return $buttons;
 	}
 	public function tinymce_add_translations($locales){
-		$locales ['ithoughts_html_snippets_tinymce'] = self::$base . '/../lang/ithoughts_html_snippets_tinymce_lang.php';
+		$backbone = \ithoughts\html_snippets\backbone::get_instance();
+		$locales ['ithoughts_html_snippets_tinymce'] = $backbone->get_base_lang_path() . '/ithoughts_html_snippets_tinymce_lang.php';
 		return $locales;
 	}
 
 
 	public function getListAjax(){
-		$args=array(
-			'post_type' => "html_snippet",
-			'post_status' => 'publish',
-			'posts_per_page' => 25,
-			'orderby'       => 'title',
-			'order'         => 'ASC',
-			's'             => $_POST["search"]
+		$args = array(
+			'post_type'			=> "html_snippet",
+			'post_status'		=> 'publish',
+			'posts_per_page'	=> 25,
+			'orderby'			=> 'title',
+			'order'				=> 'ASC',
+			's'					=> $_POST["search"]
 		);
 		$posts = get_posts($args);
 		$output = array("snippets" => array(), "searched" => $_POST["search"]);
 		foreach($posts as $post){
 			$output["snippets"][] = array(
-				"text"	=> $post->post_title,
+				"text"		=> $post->post_title,
 				"tooltip"	=> $post->post_name,
-				"value"	=> $post->ID,
+				"value"		=> $post->ID,
 			);
 		}
 		wp_send_json_success($output);
@@ -134,7 +139,10 @@ var ithoughts_html_snippets = {
 	}
 	public function getSnippetAjax(){
 		$snippet = get_post( $_POST["id"] );
-		wp_send_json_success(array("title" => $snippet->post_title, "content" => $snippet->post_content));
+		wp_send_json_success(array(
+			"title"		=> $snippet->post_title,
+			"content"	=> $snippet->post_content
+		));
 		return;
 	}
 }

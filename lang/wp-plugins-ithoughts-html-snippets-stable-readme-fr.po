@@ -1,0 +1,51 @@
+# Translation of Stable Readme (latest release) in French (France)
+# This file is distributed under the same license as the Stable Readme (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2016-01-28 02:09:36+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Stable Readme (latest release)\n"
+
+#. Name.
+msgid "iThoughts HTML Snippets"
+msgstr "iThoughts HTML Snippets"
+
+#. Short description.
+msgid "Embed custom HTML snippets with placeholder with shortcodes"
+msgstr "Embarquez votre code HTML avec paramètres fictifs grâce aux shortcodes"
+
+#. Found in installation paragraph.
+msgid "Either install through admin panel (this is the eaiest way), or:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "This section is empty for now."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "This plugin allow to create HTML snippets and embed it into your post with a shortcode. It have a small tinymce plugin to add an interface to configure your shortcode. It also comes with a simple system of placeholders, allowing to modify some pieces of your snippet by declaring attributes into the shortcode."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "For more informations, please visit the <a href=\"http://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/\">dedicated plugin page</a>"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Upload <code>ithoughts-html-snippets.zip</code> to the <code>/wp-content/plugins/</code> directory"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Unzip the archive"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Activate the plugin through the 'Plugins' menu in WordPress"
+msgstr "Activez l’extension via le menu « Extensions » de WordPress."
+
+#. Found in changelog list item.
+msgid "FIX Change plugin display name"
+msgstr ""

@@ -41,6 +41,8 @@
 								// Open window
 								var content = data.data.content;
 								var matches = content.match(/%([^\s]+?)%/g);
+								if(matches == null || typeof matches == "undefined")
+									matches = [];
 								console.log(matches);
 								var form = [];
 								for(var i = 0, j = matches.length; i < j; i++){
@@ -62,19 +64,26 @@
 										});
 									}
 								}
+								if(matches.length > 0){
 								editor.windowManager.open({
 									title: editor.getLang('ithoughts_html_snippets_tinymce.edit_snippet') + '"' + data.data.title + '"',
 									body: form,
 									onsubmit: function(e){
+										finish(snippetId, e.data);
+									}
+								});
+								} else {
+									finish(snippetId,{});
+								}
+								function finish(snippetId, data){
 										console.log(e.data);
 										// Insert content when the window form is submitted
 										var str = "";
-										for(var i in e.data){
+										for(var i in data){
 											str += i + "=\"" + e.data[i].replace('"', '&aquot;') + '"'; 
 										}
 										editor.insertContent('[html_snippet snippet-id="' + snippetId + '" ' + str + "]");
-									}
-								});
+								}
 							});
 						}
 					});

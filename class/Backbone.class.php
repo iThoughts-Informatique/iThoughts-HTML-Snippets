@@ -1,36 +1,16 @@
 <?php
 
-class ithoughts_html_snippets_interface{
-	static protected $basePlugin;
-	static protected $plugin_base;
-	static protected $options;
-	static protected $base_url;
-	static protected $base_lang;
-	static protected $base;
-	static protected $scripts;
-	static protected $optionsConfig;
-	static protected $clientsideOverridable;
-	static protected $serversideOverridable;
-	static protected $handledAttributes;
-	static protected $minify = ".min";
+namespace ithoughts\html_snippets;
 
-	public function getPluginOptions($defaultsOnly = false){
-		return self::$basePlugin->getOptions($defaultsOnly);
-	}
-	public static function getiThoughtsHTMLSnippets(){
-		return self::$basePlugin;
-	}
-}
-
-class ithoughts_html_snippets extends ithoughts_html_snippets_interface{
+class Backbone extends \ithoughts\v1_1_1\Backbone{
 	public function __construct($plugin_base) {
 		if(defined("WP_DEBUG") && WP_DEBUG)
-			parent::$minify = "";
-		parent::$basePlugin		= &$this;
-		parent::$plugin_base	= $plugin_base;
-		parent::$base			= $plugin_base . '/class';
-		parent::$base_lang		= $plugin_base . '/lang';
-		parent::$base_url		= plugins_url( '', dirname(__FILE__) );
+			$this->minify = "";
+		$this->optionsName		= "ithoughts_html_snippets";
+		$this->base_path		= $plugin_base;
+		$this->base_class_path	= $plugin_base . '/class';
+		$this->base_lang_path	= $plugin_base . '/lang';
+		$this->base_url			= plugins_url( '', dirname(__FILE__) );
 
 
 		add_shortcode( 'html_snippet', array($this, 'html_snippet') );
@@ -49,8 +29,8 @@ class ithoughts_html_snippets extends ithoughts_html_snippets_interface{
 				'not_found'          => __( 'No HTML Snippet found', 'ithoughts-html-snippets' ),
 				'not_found_in_trash' => __( 'No HTML Snippets found in trash', 'ithoughts-html-snippets' )
 			),
-			
-			
+
+
 			'public'				=> false,
 			'show_ui'				=> true,
 			"show_in_nav_menus"		=> false,
@@ -70,6 +50,8 @@ class ithoughts_html_snippets extends ithoughts_html_snippets_interface{
 		) );
 
 		add_action( 'plugins_loaded',				array($this,	'localisation')					);
+		
+		parent::__construct();
 	}
 
 	public function localisation(){
@@ -112,10 +94,10 @@ class ithoughts_html_snippets extends ithoughts_html_snippets_interface{
 				$error = error_get_last();
 				$errorStr = "Error while eval HTML snippet: \"{$error["message"]}\" in {$error["file"]} @ line {$error["line"]}";
 				if(defined("WP_DEBUG") && WP_DEBUG){
-				return $errorStr;
+					return $errorStr;
 				} else {
-				error_log($errorStr);
-				return __("Oops, an error occured. Please contact the site administrator", 'ithoughts-html-snippets' );
+					error_log($errorStr);
+					return __("Oops, an error occured. Please contact the site administrator", 'ithoughts-html-snippets' );
 				}
 			}
 			$content = ob_get_clean();
@@ -145,6 +127,7 @@ class ithoughts_html_snippets extends ithoughts_html_snippets_interface{
 		}
 		$content = str_replace("\\%", "%", $content);
 		$content = str_replace("&amp;aquot;", '"', $content);
+		$content = do_shortcode($content);
 		return $content;
 	}
 }
