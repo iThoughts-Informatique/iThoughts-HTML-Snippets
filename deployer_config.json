@@ -65,12 +65,15 @@
                     }
                 },
                 "wordpress-upgrade": {
-					"command": {
-						"bin": "nano",
-						"args": ["-t", "%FILE%"],
-						"closeMessage": "Press Ctrl+X to end."
-					}
-				}
+                    "command": {
+                        "bin": "nano",
+                        "args": [
+                            "-t",
+                            "%FILE%"
+                        ],
+                        "closeMessage": "Press Ctrl+X to end."
+                    }
+                }
             },
             {
                 "jsdoc": {
@@ -144,7 +147,7 @@
                                 }
                             },
                             {
-                                "action": "push"	
+                                "action": "push"
                             }
                         ]
                     }
