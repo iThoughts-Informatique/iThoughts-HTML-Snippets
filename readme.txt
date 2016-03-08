@@ -1,17 +1,24 @@
 === iThoughts HTML Snippets ===
 Contributors: Gerkin
-Plugin URL: 
-Tags: 
+Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/
+Tags: html, raw, code, tool, custom post type, custom, post, type, dom, text, editor, php, placeholder, template
 Requires at least: 3.3
 Tested up to: 4.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 
-Embed custom HTML snippets with placeholder with shortcodes
+Embed custom HTML snippets with raw content and variables
 
 == Description ==
 
-This plugin allow to create HTML snippets and embed it into your post with a shortcode. It have a small tinymce plugin to add an interface to configure your shortcode. It also comes with a simple system of placeholders, allowing to modify some pieces of your snippet by declaring attributes into the shortcode.
+Create your HTML snippets or raw PHP code with this plugin. Don't bother anymore with annoying TinyMCE HTML rules, that cleans script or styles tags.
+All users allowed to create HTML snippets are able to use also placeholdes: a small piece of text that will be replaced by the value you give to the related attribute.
+Administrator users are also allowed to embed raw PHP code that can be executed at display-time.
+Want to display the name of the current user? No problem! Display it's IP address? Just go! Store or display session data? Hey, just do!
+Improve your editing comfort by installing [iThoughts Advanced Code Editor](https://wordpress.org/plugins/ithoughts-advanced-code-editor/), that set up an awesome web code editor.
+It also includes a tiny TinyMCE plugin to link your HTML Snippets with your standard posts.
+
+Enjoy the freedom of setting up everything you want in a simple embeddable custom shortcode.
 
 For more informations, please visit the [dedicated plugin page](http://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/)
 

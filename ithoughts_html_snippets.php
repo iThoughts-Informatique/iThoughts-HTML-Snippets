@@ -1,9 +1,21 @@
 <?php
+
+/**
+ * @file This file is the main plugin file of iThoughts HTML Snippets. Do the inclusion of required class.
+ *
+ * @copyright 2016 iThoughts Informatique
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html GPLv2
+ * @package ithoughts\html_snippets
+ *
+ * @version 1.0.1
+ */
+
+
 /*
 Plugin Name: iThoughts HTML Snippets
 Plugin URI: 
 Description: Embed custom HTML snippets with placeholder with shortcodes
-Version:     1.0.0
+Version:     1.0.1
 Author:      Gerkin
 License:     GPLv2 or later
 Text Domain: ithoughts-html-snippets

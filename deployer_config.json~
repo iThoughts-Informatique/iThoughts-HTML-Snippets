@@ -1,0 +1,120 @@
+{
+    "project": {
+        "project_name": "iThoughts HTML Snippets",
+        "author": "Gerkin",
+        "documentation": {
+            "base": {
+                "url": "http://documentation.loc/ithoughts-html-snippets",
+                "path": "/mnt/workdata/php/WP-Plugins/doc/ithoughts-html-snippets"
+            },
+            "format": [
+                "%BASE%",
+                "%VERSION%",
+                "%TYPE%"
+            ],
+            "resources": {
+                "url": "/resources",
+                "path": "/mnt/workdata/php/WP-Plugins/doc/resources/"
+            }
+        },
+        "company": {
+            "start": "2015",
+            "name": "GerkinDevelopment"
+        },
+        "commands": [
+            {
+                "files-version": {
+                    "selection": {
+                        "\\.(js|css|php)$": true,
+                        "\\.min\\.(js|css|php)$": false,
+                        "^\\.\\/submodules($|\\/)": false
+                    },
+                    "setDiffs": {
+                        "/(@version\\s+)\\d+(\\.\\d+)*": "$1%VERSION%"
+                    }
+                }
+            },
+            {
+                "minify": {
+                    "actions": {
+                        "each": {
+                            "before": null,
+                            "after": "git.add"
+                        }
+                    },
+                    "selection": {
+                        "\\.(js|css)$": true,
+                        "\\.min\\.(js|css)$": false,
+                        "^\\.\\/submodules($|\\/)": false
+                    },
+                    "output": {
+                        "from": "^(.*)(\\.(?:css|js))$",
+                        "to": "$1.min$2"
+                    }
+                },
+                "wordpress-upgrade": {}
+            },
+            {
+                "jsdoc": {
+                    "private": true,
+                    "selection": {
+                        "\\.(js|css)$": true,
+                        "\\.min\\.(js|css)$": false
+                    },
+                    "template": "gerkindevelopment",
+                    "typepath": "javascript"
+                },
+                "phpdoc": {
+                    "private": true,
+                    "templates": {
+                        "gerkindevelopment": {}
+                    },
+                    "replace_output": {
+                        "%MENU%": "<li><a href=\"http://www.gerkindevelopment.net/\">GerkinDevelopment</a></li><li><a href=\"https://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/\">Plugin page</a></li><li><a href=\"https://wordpress.org/plugins/ithoughts-html-snippets/\">WordPress page</a></li><li><a href=\"http://documentation.gerkindevelopment.net/resources/%VERSION%/javascript/index.html\">Javascript documentation</a></li>",
+                        "%COMPANY-YEAR%": "%COMPANY-YEAR%"
+                    },
+                    "selection": {
+                        "\\.php$": true
+                    },
+                    "typepath": "php"
+                },
+                "ithoughts-index-doc": {
+                    "template": "ithoughts-index-doc",
+                    "head_links": {
+                        "GerkinDevelopment page": "https://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/",
+                        "WordPress page": "https://wordpress.org/plugins/ithoughts-html-snippets/",
+                        "Back to Documentation Index": "/ithoughts-html-snippets/%VERSION%/"
+                    },
+                    "doc_links": [
+                        {
+                            "labels": {
+                                "main": "JavaScript",
+                                "sub": "Client side"
+                            },
+                            "image": "/images/clientside.jpg",
+                            "link": "/javascript/index.html"
+                        },
+                        {
+                            "labels": {
+                                "main": "PHP",
+                                "sub": "Server side"
+                            },
+                            "image": "/images/serverside.jpg",
+                            "link": "/php/index.html"
+                        }
+                    ]
+                },
+                "version-history": {
+                    "template": "ithoughts-index-doc"
+                }
+            },
+            {
+                "git-doc": {},
+                "git": {}
+            }
+        ],
+        "versions": {
+            "1.0": "http://documentation.loc/ithoughts-html-snippets/1.0"
+        }
+    }
+}
