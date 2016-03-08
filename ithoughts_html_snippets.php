@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html GPLv2
  * @package ithoughts\html_snippets
  *
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 
@@ -15,7 +15,7 @@
 Plugin Name: iThoughts HTML Snippets
 Plugin URI: 
 Description: Embed custom HTML snippets with placeholder with shortcodes
-Version:     1.0.1
+Version:     1.0.2
 Author:      Gerkin
 License:     GPLv2 or later
 Text Domain: ithoughts-html-snippets

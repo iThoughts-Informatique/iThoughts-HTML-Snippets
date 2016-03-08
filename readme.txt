@@ -4,7 +4,7 @@ Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippet
 Tags: html, raw, code, tool, custom post type, custom, post, type, dom, text, editor, php, placeholder, template
 Requires at least: 3.3
 Tested up to: 4.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 
 Embed custom HTML snippets with raw content and variables

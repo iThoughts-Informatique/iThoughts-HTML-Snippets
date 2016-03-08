@@ -7,7 +7,7 @@
  * @package ithoughts\html_snippets
  * @author Gerkin
  *
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 namespace ithoughts\html_snippets;
