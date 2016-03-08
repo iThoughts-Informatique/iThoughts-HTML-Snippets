@@ -1,6 +1,6 @@
 <?php
 /**
- * @file lang/ithoughts_html_snippets_tinymce_lang.php Generates translation array for TinyMCE multilang display
+ * @file lang/ithoughts_html_snippets_tinymce_lang.php Generates array of translation array for TinyMCE multilang display
  *
  * @copyright 2015-2016 iThoughts Informatique
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
