@@ -38,6 +38,9 @@ This section is empty for now.
 
 == Changelog ==
 
+= 1.0.2 =
+Was here before
+
 = 1.0.0 =
 * NEW [iThoughts Advanced Code Editor](https://wordpress.org/plugins/ithoughts-advanced-code-editor/) compatibility
 * UPD New Core version using [iThoughts WordPress Plugins Toolbox](https://github.com/iThoughts-Informatique/iThoughts-WordPress-Plugin-Toolbox/)
