@@ -47,8 +47,5 @@ This section is empty for now.
 
 == Upgrade Notice ==
 
-= 1.0.2 =
-Was here before
-
 = 1.0.0 =
 A brand new [core](https://github.com/iThoughts-Informatique/iThoughts-WordPress-Plugin-Toolbox/) and an improved behavior with [iThoughts Advanced Code Editor](https://wordpress.org/plugins/ithoughts-advanced-code-editor/).
