@@ -206,13 +206,13 @@
                 "sha1": "617fadbcab4412d714e76b1657ecace14f8e1a01",
                 "md5": "b6f7ab5ce52307193345acb69a75ca34"
             },
-            "./lang/ithoughts_html_snippets_tinymce_lang.php": {
-                "sha1": "fb8c3852e8cbf11eef61848eac12746457d7c232",
-                "md5": "e7e28aee3a1969c192c672b5cca9f906"
-            },
             "./resources/tinymce.js": {
                 "sha1": "cfdde33de57365e53d43370b471c10a90d7d5014",
                 "md5": "3ef81fd593eb9cddaf3319b0e4c64e57"
+            },
+            "./lang/ithoughts_html_snippets_tinymce_lang.php": {
+                "sha1": "fb8c3852e8cbf11eef61848eac12746457d7c232",
+                "md5": "e7e28aee3a1969c192c672b5cca9f906"
             }
         }
     },
