@@ -133,7 +133,11 @@
                 "cp": [
                     {
                         "from": ".",
-                        "to": "../../svn/ithoughts_html_snippets/"
+                        "to": "../../svn/ithoughts_html_snippets/trunk"
+                    },
+                    {
+                        "from": ".",
+                        "to": "../../svn/ithoughts_html_snippets/tags/%VERSION%"
                     }
                 ]
             },
