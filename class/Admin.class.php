@@ -2,10 +2,10 @@
 /**
  * @file class/Admin.class.php Handles everything specific to admin users in backend
  *
+ * @author Gerkin
  * @copyright 2015-2016 iThoughts Informatique
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
  * @package ithoughts\html_snippets
- * @author Gerkin
  *
  * @version 1.0.2
  */

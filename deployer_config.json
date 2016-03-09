@@ -1,163 +1,220 @@
 {
-    "project": {
-        "project_name": "iThoughts HTML Snippets",
-        "author": "Gerkin",
-        "documentation": {
-            "base": {
-                "url": "http://documentation.loc/ithoughts-html-snippets",
-                "path": "/mnt/workdata/php/WP-Plugins/doc/ithoughts-html-snippets"
-            },
-            "format": [
-                "%BASE%",
-                "%VERSION_MINOR%",
-                "%TYPE%"
-            ],
-            "resources": {
-                "url": "/resources",
-                "path": "/mnt/workdata/php/WP-Plugins/doc/resources/"
-            }
-        },
-        "company": {
-            "start": "2015",
-            "name": "iThoughts Informatique"
-        },
-        "commands": [
-            {
-                "git": {
-                    "actions": [
-                        {
-                            "action": "commit",
-                            "data": {
-                                "message": "Pre-process release v%VERSION%"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "files-version": {
-                    "selection": {
-                        "\\.(js|css|php)$": true,
-                        "\\.min\\.(js|css|php)$": false,
-                        "^\\.\\/submodules($|\\/)": false
-                    },
-                    "setDiffs": {
-                        "/(@version\\s+)\\d+(\\.\\d+)*": "$1%VERSION%"
-                    }
-                }
-            },
-            {
-                "minify": {
-                    "actions": {
-                        "each": {
-                            "before": null,
-                            "after": "git.add"
-                        }
-                    },
-                    "selection": {
-                        "\\.(js|css)$": true,
-                        "\\.min\\.(js|css)$": false,
-                        "^\\.\\/submodules($|\\/)": false
-                    },
-                    "output": {
-                        "from": "^(.*)(\\.(?:css|js))$",
-                        "to": "$1.min$2"
-                    }
-                },
-                "wordpress-upgrade": {
-                    "command": {
-                        "bin": "nano",
-                        "args": [
-                            "-t",
-                            "%FILE%"
-                        ],
-                        "closeMessage": "Press Ctrl+X to end."
-                    }
-                }
-            },
-            {
-                "jsdoc": {
-                    "private": true,
-                    "selection": {
-                        "\\.(js|css)$": true,
-                        "\\.min\\.(js|css)$": false
-                    },
-                    "template": "gerkindevelopment",
-                    "typepath": "javascript"
-                },
-                "phpdoc": {
-                    "private": true,
-                    "templates": {
-                        "gerkindevelopment": {}
-                    },
-                    "replace_output": {
-                        "%MENU%": "<li><a href=\"http://www.gerkindevelopment.net/\">GerkinDevelopment</a></li><li><a href=\"https://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/\">Plugin page</a></li><li><a href=\"https://wordpress.org/plugins/ithoughts-html-snippets/\">WordPress page</a></li><li><a href=\"http://documentation.gerkindevelopment.net/ithoughts-html-snippets/%VERSION_MINOR%/javascript/index.html\">Javascript documentation</a></li>",
-                        "%COMPANY-YEAR%": "%COMPANY-YEAR%"
-                    },
-                    "selection": {
-                        "\\.php$": true
-                    },
-                    "typepath": "php"
-                },
-                "ithoughts-index-doc": {
-                    "template": "ithoughts-index-doc",
-                    "head_links": {
-                        "GerkinDevelopment page": "https://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/",
-                        "WordPress page": "https://wordpress.org/plugins/ithoughts-html-snippets/",
-                        "Back to Documentation Index": "/ithoughts-html-snippets/%VERSION_MINOR%/"
-                    },
-                    "doc_links": [
-                        {
-                            "labels": {
-                                "main": "JavaScript",
-                                "sub": "Client side"
-                            },
-                            "image": "/images/clientside.jpg",
-                            "link": "/javascript/index.html"
-                        },
-                        {
-                            "labels": {
-                                "main": "PHP",
-                                "sub": "Server side"
-                            },
-                            "image": "/images/serverside.jpg",
-                            "link": "/php/index.html"
-                        }
-                    ]
-                },
-                "version-history": {
-                    "template": "ithoughts-index-doc"
-                }
-            },
-            [
-                {
-                    "git": {
-                        "actions": [
-                            {
-                                "action": "commit",
-                                "data": {
-                                    "message": "Release version %VERSION%"
-                                }
-                            },
-                            {
-                                "action": "tag",
-                                "data": {
-                                    "label": "v%VERSION%",
-                                    "message": "Release version %VERSION%"
-                                }
-                            },
-                            {
-                                "action": "push"
-                            }
-                        ]
-                    }
-                }
-            ]
-        ],
-        "versions": {
-            "1.0": "http://documentation.loc/ithoughts-html-snippets/1.0"
-        },
-        "checksums": {}
-    },
-    "command": "node /mnt/workdata/nodejs/scripts/deployer/deployer.js 1.0.1 deployer_config.json"
+	"project": {
+		"project_name": "iThoughts HTML Snippets",
+		"author": "Gerkin",
+		"documentation": {
+			"base": {
+				"url": "http://documentation.loc/ithoughts-html-snippets",
+				"path": "/mnt/workdata/php/WP-Plugins/doc/ithoughts-html-snippets"
+			},
+			"format": [
+				"%BASE%",
+				"%VERSION_MINOR%",
+				"%TYPE%"
+			],
+			"resources": {
+				"url": "/resources",
+				"path": "/mnt/workdata/php/WP-Plugins/doc/resources/"
+			}
+		},
+		"company": {
+			"start": "2015",
+			"name": "iThoughts Informatique"
+		},
+		"commands": [
+			{
+				"git": {
+					"actions": [
+						{
+							"action": "commit",
+							"data": {
+								"message": "Pre-process release v%VERSION%"
+							}
+						}
+					]
+				}
+			},
+			{
+				"files-version": {
+					"selection": {
+						"\\.(js|css|php)$": true,
+						"\\.min\\.(js|css|php)$": false,
+						"^\\.\\/submodules($|\\/)": false
+					},
+					"setDiffs": {
+						"/(@version\\s+)\\d+(\\.\\d+)*": "$1%VERSION%"
+					}
+				}
+			},
+			{
+				"minify": {
+					"actions": {
+						"each": {
+							"before": null,
+							"after": "git.add"
+						}
+					},
+					"selection": {
+						"\\.(js|css)$": true,
+						"\\.min\\.(js|css)$": false,
+						"^\\.\\/submodules($|\\/)": false
+					},
+					"output": {
+						"from": "^(.*)(\\.(?:css|js))$",
+						"to": "$1.min$2"
+					}
+				},
+				"wordpress-upgrade": {
+					"command": {
+						"bin": "nano",
+						"args": [
+							"-t",
+							"%FILE%"
+						],
+						"closeMessage": "Press Ctrl+X to end."
+					}
+				}
+			},
+			{
+				"jsdoc": {
+					"private": true,
+					"selection": {
+						"\\.(js|css)$": true,
+						"\\.min\\.(js|css)$": false
+					},
+					"template": "gerkindevelopment",
+					"typepath": "javascript"
+				},
+				"phpdoc": {
+					"private": true,
+					"templates": {
+						"gerkindevelopment": {}
+					},
+					"replace_output": {
+						"%MENU%": "<li><a href=\"http://www.gerkindevelopment.net/\">GerkinDevelopment</a></li><li><a href=\"https://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/\">Plugin page</a></li><li><a href=\"https://wordpress.org/plugins/ithoughts-html-snippets/\">WordPress page</a></li><li><a href=\"http://documentation.gerkindevelopment.net/ithoughts-html-snippets/%VERSION_MINOR%/javascript/index.html\">Javascript documentation</a></li>",
+						"%COMPANY-YEAR%": "%COMPANY-YEAR%"
+					},
+					"selection": {
+						"\\.php$": true
+					},
+					"typepath": "php"
+				},
+				"ithoughts-index-doc": {
+					"template": "ithoughts-index-doc",
+					"head_links": {
+						"GerkinDevelopment page": "https://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/",
+						"WordPress page": "https://wordpress.org/plugins/ithoughts-html-snippets/",
+						"Back to Documentation Index": "/ithoughts-html-snippets/%VERSION_MINOR%/"
+					},
+					"doc_links": [
+						{
+							"labels": {
+								"main": "JavaScript",
+								"sub": "Client side"
+							},
+							"image": "/images/clientside.jpg",
+							"link": "/javascript/index.html"
+						},
+						{
+							"labels": {
+								"main": "PHP",
+								"sub": "Server side"
+							},
+							"image": "/images/serverside.jpg",
+							"link": "/php/index.html"
+						}
+					]
+				},
+				"version-history": {
+					"template": "ithoughts-index-doc"
+				}
+			},
+			{
+				"cp": [
+					{
+						"from":".",
+						"to": "../../svn/ithoughts_html_snippets/"
+					}
+				]
+			},
+			[
+				{
+					"git": {
+						"actions": [
+							{
+								"action": "commit",
+								"data": {
+									"message": "Release version %VERSION%"
+								}
+							},
+							{
+								"action": "tag",
+								"data": {
+									"label": "v%VERSION%",
+									"message": "Release version %VERSION%"
+								}
+							},
+							{
+								"action": "push"
+							}
+						]
+					}
+				},
+				{
+					"git": {
+						"path": "/mnt/workdata/php/WP-Plugins/doc",
+						"actions": [
+							{
+								"action": "commit",
+								"data": {
+									"message": "Release version %VERSION% of iThoughts HTML Snippets"
+								}
+							},
+							{
+								"action": "push"
+							}
+						]
+					}
+				},
+				{
+					"svn": {
+						"actions": [
+							{
+								"action": "commit",
+								"data": {
+									"message": "Release version %VERSION%"
+								}
+							}
+						]
+					}
+				}
+			]
+		],
+		"versions": {
+			"1.0": "http://documentation.loc/ithoughts-html-snippets/1.0"
+		},
+		"checksums": {
+			"./ithoughts_html_snippets.php": {
+				"sha1": "4c719ca81737c1fb23d94a3b7e37bd7357db2a08",
+				"md5": "e1edcff94b855cd00754c611dc799cd8"
+			},
+			"./class/Admin.class.php": {
+				"sha1": "0612f0f0f564035e4b07c1592c18d7efe255f94c",
+				"md5": "5414c2bedd690384be8529f04734f0ea"
+			},
+			"./class/Backbone.class.php": {
+				"sha1": "617fadbcab4412d714e76b1657ecace14f8e1a01",
+				"md5": "b6f7ab5ce52307193345acb69a75ca34"
+			},
+			"./lang/ithoughts_html_snippets_tinymce_lang.php": {
+				"sha1": "fb8c3852e8cbf11eef61848eac12746457d7c232",
+				"md5": "e7e28aee3a1969c192c672b5cca9f906"
+			},
+			"./resources/tinymce.js": {
+				"sha1": "cfdde33de57365e53d43370b471c10a90d7d5014",
+				"md5": "3ef81fd593eb9cddaf3319b0e4c64e57"
+			}
+		}
+	},
+	"command": "node /mnt/workdata/nodejs/scripts/deployer/deployer.js 1.0.1 deployer_config.json"
 }
