@@ -7,12 +7,14 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
  * @package ithoughts\html_snippets
  *
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 namespace ithoughts\html_snippets;
 
-class Backbone extends \ithoughts\v1_1_1\Backbone{
+use ithoughts\v4_0\Toolbox as TB;
+
+class Backbone extends \ithoughts\v4_0\Backbone{
 	public function __construct($plugin_base) {
 		if(defined("WP_DEBUG") && WP_DEBUG)
 			$this->minify = "";
@@ -28,17 +30,17 @@ class Backbone extends \ithoughts\v1_1_1\Backbone{
 
 		register_post_type( "html_snippet", array(
 			'labels' => array(
-				'name'               => __( 'HTML Snippets', 'ithoughts-html-snippets' ),
-				'singular_name'      => __( 'HTML Snippet', 'ithoughts-html-snippets' ),
-				'add_new'            => __( 'Add New HTML Snippet', 'ithoughts-html-snippets' ),
-				'add_new_item'       => __( 'Add New HTML Snippet', 'ithoughts-html-snippets' ),
-				'edit_item'          => __( 'Edit HTML Snippet', 'ithoughts-html-snippets' ),
-				'new_item'           => __( 'Add New HTML Snippet', 'ithoughts-html-snippets' ),
-				'view_item'          => __( 'View HTML Snippet', 'ithoughts-html-snippets' ),
-				'search_items'       => __( 'Search HTML Snippet', 'ithoughts-html-snippets' ),
-				'not_found'          => __( 'No HTML Snippet found', 'ithoughts-html-snippets' ),
-				'not_found_in_trash' => __( 'No HTML Snippets found in trash', 'ithoughts-html-snippets' )
-			),
+			'name'               => __( 'HTML Snippets', 'ithoughts-html-snippets' ),
+			'singular_name'      => __( 'HTML Snippet', 'ithoughts-html-snippets' ),
+			'add_new'            => __( 'Add New HTML Snippet', 'ithoughts-html-snippets' ),
+			'add_new_item'       => __( 'Add New HTML Snippet', 'ithoughts-html-snippets' ),
+			'edit_item'          => __( 'Edit HTML Snippet', 'ithoughts-html-snippets' ),
+			'new_item'           => __( 'Add New HTML Snippet', 'ithoughts-html-snippets' ),
+			'view_item'          => __( 'View HTML Snippet', 'ithoughts-html-snippets' ),
+			'search_items'       => __( 'Search HTML Snippet', 'ithoughts-html-snippets' ),
+			'not_found'          => __( 'No HTML Snippet found', 'ithoughts-html-snippets' ),
+			'not_found_in_trash' => __( 'No HTML Snippets found in trash', 'ithoughts-html-snippets' )
+		),
 
 
 			'public'				=> false,
@@ -60,7 +62,7 @@ class Backbone extends \ithoughts\v1_1_1\Backbone{
 		) );
 
 		add_action( 'plugins_loaded',				array($this,	'localisation')					);
-		
+
 		parent::__construct();
 	}
 
@@ -97,18 +99,27 @@ class Backbone extends \ithoughts\v1_1_1\Backbone{
 		$content = $snippet->post_content;
 
 		// Check users rights
-		if(user_can($snippet->post_author, "edit_themes") && get_post_meta( $snippet->ID, 'phpmode', true ) === "true"){
+		if(user_can($snippet->post_author, "edit_themes") && get_post_meta( $snippet->ID, 'phpmode', true )){
 			ob_start();
-			@eval('?>'.$content.'<?php ; ');
-			if (error_get_last()){
-				$error = error_get_last();
-				$errorStr = "Error while eval HTML snippet: \"{$error["message"]}\" in {$error["file"]} @ line {$error["line"]}";
-				if(defined("WP_DEBUG") && WP_DEBUG){
-					return $errorStr;
-				} else {
-					error_log($errorStr);
-					return __("Oops, an error occured. Please contact the site administrator", 'ithoughts-html-snippets' );
+			$hash = TB::randomString(15);
+			try{
+				$evaled = '?>'.$content.'<?php return "'.$hash.'"; ';
+				$ret = @eval($evaled);
+				if (error_get_last()){
+					$error = error_get_last();
+					$errorStr = "Error while eval HTML snippet: \"{$error["message"]}\" in {$error["file"]} @ line {$error["line"]}";
+					if(defined("WP_DEBUG") && WP_DEBUG){
+						return $errorStr;
+					} else {
+						error_log($errorStr);
+						return __("Oops, an error occured. Please contact the site administrator", 'ithoughts-html-snippets' );
+					}
 				}
+				if($ret != $hash){
+					return "Didn't returned true";
+				}
+			} catch(\Exception $e){
+				return "Catched error: ".$e->message;
 			}
 			$content = ob_get_clean();
 		}
@@ -140,4 +151,73 @@ class Backbone extends \ithoughts\v1_1_1\Backbone{
 		$content = do_shortcode($content);
 		return $content;
 	}
+
+
+	/**
+	 * Runs the check process on the provided $code
+	 * @author Gerkin
+	 * @param  String $code The PHP code to check. HTML mode by default (enable PHP by openning the <?php ?> tag)
+	 * @return String Output string
+	 * @uses error_reporting
+	 * @uses ini_set
+	 */
+	/*public function check_syntax($code){
+		// First, force setup of error logging
+		$oldValues = array(
+			"d_e" => ini_get("display_errors"),
+			"t_e" => ini_get('track_errors'),
+			"e_r" => error_reporting(E_ALL)
+		);
+		ini_set("display_errors", 1);
+		ini_set('track_errors', 1);
+
+		$hash = TB::randomString(15);
+		$evaled = 'return "'.$hash.'"; ?>'.$code.'<?php';
+		$regex = "/ in ".preg_quote("<b>".__FILE__, '/')."\(\d+\) : eval\(\)'d code\<\/b\>/";
+
+		while(ob_get_level() > 0){
+			ob_end_flush();
+		}
+		// Bind fatal error function handlers
+		//register_shutdown_function(array(&$this, "handle_fatal"));
+		ob_start(array(&$this, "handle_fatal"));
+		//die($evaled);
+		$ret = @eval($evaled);
+		//die($ret);
+		$out = ob_get_clean();
+		TB::prettydump(array("out" => $out, "ret" => $ret));
+		die();
+
+		// Restore original log
+		ini_set("display_errors", $oldValues["d_e"]);
+		ini_set('track_errors', $oldValues["t_e"]);
+		error_reporting($oldValues["e_r"]);
+
+		if($ret != $hash){
+			return FALSE;
+		} else {
+			return str_replace("<br />","",preg_replace($regex, "", $out));
+		}
+	}
+
+	public function handle_fatal($buffer = null){
+		$error=error_get_last();
+		TB::prettydump(array("buffer" => $buffer, "error" => $error));
+		//return false;//die();
+		if($buffer == null || $error['type'] == 1){
+			//var_dump($error);
+			//debug_print_backtrace();
+			$err = $error["message"]." on line ".$error["line"];
+			$response = array(
+				"included_files" => get_included_files()
+			);
+			$response["text"] = __("An error has been found. Here are the lasts words from the server:", 'ithoughts-advanced-code-editor' )."<pre>".$err."</pre>";
+			$response = array("success"=>false,"data"=>$response);
+			if(!headers_sent()){
+				header('Content-type: application/json');
+			}
+			return json_encode($response);
+		}
+		return $buffer;
+	}*/
 }

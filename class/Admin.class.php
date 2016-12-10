@@ -7,10 +7,12 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
  * @package ithoughts\html_snippets
  *
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 namespace ithoughts\html_snippets;
+
+use ithoughts\v4_0\Toolbox as TB;
 
 class Admin extends \ithoughts\v1_0\Singleton{
 	public function __construct(){
@@ -27,9 +29,79 @@ class Admin extends \ithoughts\v1_0\Singleton{
 		add_filter( 'mce_external_languages',						array(&$this, 'tinymce_add_translations') );
 		add_filter( 'user_can_richedit',							array(&$this, "disable_tinymce") );
 
+		add_action('admin_enqueue_scripts-post.php',				array(&$this, "load_jquery_js") );
+		add_action('admin_enqueue_scripts-post-new.php',			array(&$this, "load_jquery_js") );
+
+		add_action('admin_head-post.php',							array(&$this, "publish_admin_hook") );
+		add_action('admin_head-post-new.php',						array(&$this, "publish_admin_hook") );
+
+		add_action('wp_ajax_ithoughts_h_s_pre_submit_validation',	array(&$this, 'pre_submit_validation') );
+		add_action('wp_ajax_nopriv_ithoughts_h_s_pre_submit_validation',	array(&$this, 'pre_submit_validation') );
 	}
 
-	function disable_tinymce( $default ){
+	public function load_jquery_js(){
+		/*global $post;
+		if ( $post->post_type == 'html_snippet' ) {
+			wp_enqueue_script('jquery');
+		}*/
+	}
+
+	public function publish_admin_hook(){
+		global $post;
+		if ( is_admin() && $post->post_type == 'html_snippet' ){
+/* ?>
+<script language="javascript" type="text/javascript">
+	jQuery(document).ready(function() {
+		console.log("Binding publish");
+		jQuery('#publish').click(function() {
+			console.log("Try to publish");
+			var form_data = jQuery('#post').serializeArray();
+			var data = {
+				action: 'ithoughts_h_s_pre_submit_validation',
+				security: '<?php echo wp_create_nonce( 'pre_publish_validation' ); ?>',
+				form_data: jQuery.param(form_data),
+			};
+			jQuery.post(ajaxurl, data, function(response) {
+				if (response.indexOf('true') > -1 || response == true) {
+					jQuery("#post").data("valid", true).submit();
+				} else {
+					//alert("Error: " + response);
+					//jQuery("#post").data("valid", false);
+
+				}
+				//hide loading icon, return Publish button to normal
+				jQuery('#ajax-loading').hide();
+				jQuery('#publish').removeClass('button-primary-disabled');
+				jQuery('#save-post').removeClass('button-disabled');
+			});
+			return false;
+		});
+	});
+</script>
+<?php */
+															   }
+	}
+
+	public function pre_submit_validation() {
+		/*
+		//simple Security check
+		//check_ajax_referer( 'pre_publish_validation', 'security' );
+
+		// Retrieve backbone
+		$backbone = \ithoughts\html_snippets\backbone::get_instance();
+
+		//convert the string of data received to an array
+		//from http://wordpress.stackexchange.com/a/26536/10406
+		parse_str( $_POST['form_data'], $vars );
+
+		//check that are actually trying to publish a post
+		TB::prettydump($vars);
+		TB::prettydump($backbone->check_syntax($vars["content"]));
+		die();
+		*/
+	}
+
+	public function disable_tinymce( $default ){
 		global $post;
 		if( $post->post_type === 'html_snippet') return false;
 		return $default;
@@ -42,13 +114,13 @@ class Admin extends \ithoughts\v1_0\Singleton{
 		$submenu_pages = array(
 			// Post Type :: Add New Post
 			array(
-				'parent_slug'   => 'edit.php?post_type=html_snippet',
-				'page_title'    => __('Add a HTML Snippet', 'ithoughts-html-snippets' ),
-				'menu_title'    => __('Add a HTML Snippet', 'ithoughts-html-snippets' ),
-				'capability'    => 'edit_others_posts',
-				'menu_slug'     => 'post-new.php?post_type=html_snippet',
-				'function'      => null,// Doesn't need a callback function.
-			),
+			'parent_slug'   => 'edit.php?post_type=html_snippet',
+			'page_title'    => __('Add a HTML Snippet', 'ithoughts-html-snippets' ),
+			'menu_title'    => __('Add a HTML Snippet', 'ithoughts-html-snippets' ),
+			'capability'    => 'edit_others_posts',
+			'menu_slug'     => 'post-new.php?post_type=html_snippet',
+			'function'      => null,// Doesn't need a callback function.
+		),
 		);
 		foreach($submenu_pages as $submenu){
 
@@ -68,7 +140,7 @@ class Admin extends \ithoughts\v1_0\Singleton{
 
 	public function metaBox_phpMode( $object, $box ) {
 		if(current_user_can("edit_themes")){
-			$phpMode = get_post_meta( $object->ID, 'phpmode', true ) === "true";
+			$phpMode = get_post_meta( $object->ID, 'phpmode', true );
 			_e('You are allowed to enable PHP mode, which allow you to write plain PHP in the snippet that will executed at display-time.', 'ithoughts-html-snippets' ); echo '<br/>
 			<label for="phpmode"><input type="checkbox" name="phpmode" value="enabled"'.($phpMode ? " checked" : "").' id="phpmode"> '.__("Enable PHP mode", 'ithoughts-html-snippets' ).'</label>
 			<input type="hidden" name="phpmode_nonce" value="'.wp_create_nonce( plugin_basename( __FILE__ ) ).'" />';
@@ -85,17 +157,14 @@ class Admin extends \ithoughts\v1_0\Singleton{
 		if ( !current_user_can( 'edit_themes', $post_id ) )
 			return $post_id;
 
-		$meta_value = get_post_meta( $post_id, 'phpmode', true ) === "true" ? "true" : "false";
-		$new_meta_value = stripslashes( isset($_POST['phpmode']) && $_POST['phpmode'] ) === "enabled" ? "true" : "false";
+		$new_meta_value = isset($_POST['phpmode']) && $_POST['phpmode'];
 
-		if ( $new_meta_value && $meta_value == '' )
-			add_post_meta( $post_id, 'phpmode', $new_meta_value, true );
-
-		elseif ( $new_meta_value != $meta_value )
-			update_post_meta( $post_id, 'phpmode', $new_meta_value );
-
-		elseif ( $new_meta_value == '' && $meta_value )
-			delete_post_meta( $post_id, 'phpmode', $meta_value );
+		// Add or delete post meta
+		if ( $new_meta_value ){
+			add_post_meta( $post_id, 'phpmode', true, true );
+		} elseif ( !$new_meta_value ){
+			delete_post_meta( $post_id, 'phpmode');
+		}
 	}
 
 	public function register_scripts_and_styles(){

@@ -3,8 +3,8 @@ Contributors: Gerkin
 Plugin URL: http://www.gerkindevelopment.net/en/portfolio/ithoughts-html-snippets/
 Tags: html, raw, code, tool, custom post type, custom, post, type, dom, text, editor, php, placeholder, template
 Requires at least: 3.3
-Tested up to: 4.4
-Stable tag: 1.0.2
+Tested up to: 4.7.0
+Stable tag: 1.0.3
 License: GPLv2 or later
 
 Embed custom HTML snippets with raw content and variables
@@ -37,6 +37,9 @@ This section is empty for now.
 == Screenshots ==
 
 == Changelog ==
+
+= 1.0.3 =
+* FIX PHP mode not saved right
 
 = 1.0.0 =
 * NEW [iThoughts Advanced Code Editor](https://wordpress.org/plugins/ithoughts-advanced-code-editor/) compatibility
